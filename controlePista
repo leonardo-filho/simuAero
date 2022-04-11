@@ -1,0 +1,120 @@
+#include <iostream>
+
+using namespace std;
+
+// Definicao de Constante MAX:
+#define MAX 30
+
+// Definicao do Tipo Fila:
+struct fila {
+	int ultimo;
+	int dados[MAX];
+};
+
+// Criacao da Fila:
+struct fila minhaFila;
+
+// Funcao para Verificar se a Fila esta Vazia:
+int filaVazia () {
+	return (minhaFila.ultimo == -1);
+}
+
+// Funcao para Verificar se a Fila esta Cheia:
+int filaCheia () {
+	return (minhaFila.ultimo == MAX-1);
+}
+
+// Funcao para Enfileirar (enqueue):
+bool enfileira (int dado) {
+	if (filaCheia()) return false;
+	else {
+		minhaFila.ultimo++;
+		minhaFila.dados[minhaFila.ultimo] = dado;
+		return true;
+	}
+}
+
+// Funcao para Desenfileirar (dequeue):
+int desenfileira () {
+	if (filaVazia()) return -2;
+	else {
+    int i;
+    int valor = minhaFila.dados[0];
+    for(i = 0; i < minhaFila.ultimo; i++)
+      minhaFila.dados[i] = minhaFila.dados[i+1];
+    minhaFila.ultimo--;
+		return valor;
+	}
+}
+
+// Funcao para Limpar a Fila:
+bool limpa() {
+	if (filaVazia()) return false;
+	else {
+		minhaFila.ultimo = -1;
+		return true;
+	}
+}
+
+// Funcao para Mostrar todos os elementos da Fila:
+bool mostra() {
+    if (filaVazia()) return false;
+    else {
+        int cont = 0;
+        while (cont <= minhaFila.ultimo) {
+            cout << minhaFila.dados[cont] << " ";
+            cont++;
+        }
+        cout << endl;
+        return true;
+    }
+}
+
+// Funcao Main:
+int main () {
+	int valor, valorRetirado, opcao = 0;
+	minhaFila.ultimo = -1; // Inicializa a fila
+
+// Menu:
+while (opcao != 5) {
+    cout << "****************************" << endl;
+    cout << "* ESCOLHA A OPCAO DESEJADA *" << endl;
+    cout << "****************************" << endl;
+
+    cout << "1: Adcione aviao." << endl;
+    cout << "2: Decolar aviao." << endl;
+    cout << "3: Esvaziar pista." << endl;
+    cout << "4: Mostrar avioes." << endl;
+    cout << "5: Sair." << endl;
+    cout << "Opcao: ";
+    cin >> opcao;
+
+    // Opcoes para o Usuario:
+    switch (opcao) {
+      case 1:
+          cout << "Adicionar qual aviao? TAM (1) , GOL (2) , AVI (3) ";
+          cin >> valor;
+          if (enfileira(valor))
+              cout << "Operacao realizada com sucesso!" << endl << endl;
+          else cout << "Operacao nao realizada. A pista de avioes esta cheia." << endl << endl;
+          break;
+      case 2:
+          valorRetirado = desenfileira();
+          if (valorRetirado != -2)
+              cout << "Valor Retirado: " << valorRetirado << endl << endl;
+          else cout << "Operacao nao realizada. A pista de avioes esta vazia." << endl << endl;
+          break;
+      case 3:
+          if (limpa())
+              cout << "A pista foi esvaziada." << endl << endl;
+          else cout << "Operacao nao realizada. A pista de avioes ja esta vazia." << endl << endl;
+          break;
+      case 4:
+          if (mostra());
+          else cout << "Operacao nao realizada. A pista de avioes esta vazia." << endl << endl;
+          break;
+      }
+  }
+  
+  return 0;
+}
